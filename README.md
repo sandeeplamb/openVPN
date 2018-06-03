@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="img/openvpn_aws.png"> </image>
+</p>
+
 # openVPN
 openVPN is open source software which is use to create point-to-point or site-to-site VPN connections.
 It is free and just under few click you can create your own VPN-Server and can surf the internet securely for free.

@@ -2,7 +2,7 @@
 openVPN is open source software which is use to create point-to-point or site-to-site VPN connections.
 It is free and just under few click you can create your own and can surf the internet securely for free.
 
-### Why you a Need of VPN
+### Why you a Need a VPN
 
 1. For Privacy.
 1. When you are in public Wi-Fi.

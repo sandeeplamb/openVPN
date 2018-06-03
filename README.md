@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="img/openvpn_aws.png" width="250"> </image>
+  <img src="img/openvpn_aws.png" width="350"> </image>
 </p>
 
 # openVPN

@@ -31,3 +31,35 @@ You need a free-tier AWS account and terraform installed on your local machine.
 We will run the terraform module which will create the openVPN server with just few commands. 
 
 Ofcourse, you need to clone the module and modify it as per needs.
+
+### User-Data
+
+The bootstrapping of openVPN is done using the script present in module `openVPN/bootstrap/bootstrap.sh`.
+
+The setup of Server and Client is done automatically.
+
+### Client-Keys
+
+The client certificates as well as pf.key and ca.crt and ca.key have to be downloaded from server.
+
+I use following command to get the keys.
+
+`scp -r -i aws-ec2.pem ec2-user@EC2-IP-ADDRESS:/etc/openvpn/keys/ .`
+
+### Client-Conf
+
+You can copy the client.conf file from `openVPN/bootstrap/client.conf`.
+
+Just needed to amend the IP-Address of your EC2.
+
+### openVPN Client.
+
+You can install the openVPN client of official website.
+
+For Mac, the client is Tunnel-Blick.
+
+### Testing
+
+From openVPN client, open the location of client.conf and connect.
+
+If all steps are performed well, you will have your VPN up and running.

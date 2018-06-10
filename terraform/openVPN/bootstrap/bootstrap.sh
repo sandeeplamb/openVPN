@@ -13,12 +13,42 @@ cd /etc/openvpn/easy-rsa
 cp -Rv /usr/share/easy-rsa/3.0.3/* .
 
 ### Server-Setup
-./easyrsa init-pki
-./easyrsa --batch --req-cn=serverCN build-ca nopass
-./easyrsa gen-dh
-./easyrsa --batch --req-cn=myvpn gen-req server nopass
-echo yes | ./easyrsa sign-req server server
+/etc/openvpn/easy-rsa/easyrsa init-pki
+/etc/openvpn/easy-rsa/easyrsa --batch --req-cn=serverCN build-ca nopass
+/etc/openvpn/easy-rsa/easyrsa gen-dh
+/etc/openvpn/easy-rsa/easyrsa --batch --req-cn=myvpn gen-req server nopass
+echo yes | /etc/openvpn/easy-rsa/easyrsa sign-req server server
 
 ### Client-Setup
-./easyrsa --batch --req-cn=clientCN gen-req client nopass
-echo yes | ./easyrsa sign-req client client
+/etc/openvpn/easy-rsa/easyrsa --batch --req-cn=clientCN gen-req client nopass
+echo yes | /etc/openvpn/easy-rsa/easyrsa sign-req client client
+
+### OpenVPN Setup
+cd /etc/openvpn
+openvpn --genkey --secret pfs.key
+yum install git -y
+cd /tmp
+mkdir project
+cd project
+git clone https://github.com/sandeeplamb/openVPN-AWS.git .
+cp terraform/openVPN/bootstrap/server.conf /etc/openvpn/
+cp terraform/openVPN/bootstrap/server.sh /etc/openvpn/
+rm -rf project
+cd /etc/openvpn
+service openvpn start
+chkconfig openvpn on
+
+### Make-Keys
+cd /etc/openvpn
+mkdir keys
+cp pfs.key keys
+cp /etc/openvpn/easy-rsa/pki/dh.pem keys
+cp /etc/openvpn/easy-rsa/pki/ca.crt keys
+cp /etc/openvpn/easy-rsa/pki/private/ca.key keys
+cp /etc/openvpn/easy-rsa/pki/private/client.key keys
+cp /etc/openvpn/easy-rsa/pki/issued/client.crt keys
+chmod 777 *
+
+### Change-back-permissions after copying
+cd /etc/openvpn/keys
+chmod 600 *

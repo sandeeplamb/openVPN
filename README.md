@@ -38,12 +38,16 @@ The bootstrapping of openVPN is done using the script present in module `openVPN
 
 The setup of Server and Client is done automatically.
 
-### Commands
+### Terraform Commands
 
 `cd terraform`
+
 `terraform init`
+
 `terraform validate`
+
 `terraform plan --var-file=terraformtfvars`
+
 `terraform apply --var-file=terraformtfvars`
 
 

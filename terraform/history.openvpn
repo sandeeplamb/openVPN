@@ -1,0 +1,179 @@
+    1  exit
+    2  yum install openvpn
+    3  chkconfig openvpn on
+    4  service openvpn status
+    5  cd /etc/openvpn/
+    6  ll
+    7  modprobe iptable_nat
+    8  echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward
+    9  sudo iptables -t nat -A POSTROUTING -s 10.4.0.1/2 -o eth0 -j MASQUERADE
+   10  sudo iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE
+   11  service iptables status
+   12  yum install easy-rsa -y --enablerepo=epel
+   13  sudo mkdir /etc/openvpn/easy-rsa
+   14  cd /etc/openvpn/easy-rsa
+   15  sudo cp -Rv /usr/share/easy-rsa/3.0.3/*
+   16  ll
+   17  pwd
+   18  sudo cp -Rv /usr/share/easy-rsa/3.0.3/* .
+   19  ll
+   20  pwd
+   21  ./easyrsa init-pki
+   22  ./easyrsa build-ca
+   23  ll
+   24  ll /etc/openvpn/easy-rsa/pki/ca.crt
+   25  ./easyrsa gen-dh
+   26  ./easyrsa gen-req server nopass
+   27  ./easyrsa sign-req server server
+   28  ./easyrsa gen-req client nopass
+   29  ./easyrsa sign-req client client
+   30  cd /etc/openvpn
+   31  openvpn --genkey --secret pfs.key
+   32  cd /etc/openvpn
+   33  vi server.conf
+   34  ll /etc/openvpn/easy-rsa/pki/ca.crt
+   35  ll /etc/openvpn/easy-rsa/pki/issued/server.crt
+   36  ll /etc/openvpn/easy-rsa/pki/private/server.key
+   37  ll /etc/openvpn/easy-rsa/pki/dh.pem
+   38  ll /etc/openvpn/pfs.key
+   39  service openvpn start
+   40  chkconfig openvpn on
+   41  chkconfig openvpn lisat
+   42  chkconfig openvpn list
+   43  chkconfig list openvpn
+   44  chkconfig --list openvpn
+   45  pwd
+   46  vi server.sh
+   47  mkdir keys
+   48  pwd
+   49  cd keys/
+   50  cd ../
+   51  cp pfs.key keys
+   52  cp /etc/openvpn/easy-rsa/pki/dh.pem keys
+   53  cp /etc/openvpn/easy-rsa/pki/ca.crt keys
+   54  cp /etc/openvpn/easy-rsa/pki/private/ca.key keys
+   55  cp /etc/openvpn/easy-rsa/pki/private/client.key keys
+   56  cp /etc/openvpn/easy-rsa/pki/issued/client.crt keys
+   57  ll
+   58  ll keys/
+   59  cd /root/
+   60  cd .ssh/
+   61  ll\
+   62  ll
+   63  vi authorized_keys
+   64  cd -
+   65  cd /etc/openvpn/
+   66  ll
+   67  cp -r keys /home/sandeep
+   68  cd /home/sandeep
+   69  ll
+   70  mkdir keys
+   71  mv *.crt keys/
+   72  mv *.crt keys/
+   73  ll
+   74  mv *.key keys/
+   75  ll
+   76  mv dh.pem keys/
+   77  ll
+   78  ll keys/
+   79  ll
+   80  pwd
+   81  ll
+   82  exit
+   83  cd /etc/op
+   84  cd /etc/openvpn/
+   85  id
+   86  c
+   87  pwd
+   88  ll
+   89  vi server.conf
+   90  less openvpn.log
+   91  pwd
+   92  cd easy-rsa/
+   93  ./easyrsa gen-req client1 nopass
+   94  ./easyrsa sign-req --help
+   95  ./easyrsa sign-req help
+   96  ./easyrsa sign-req client1 client1
+   97  ./easyrsa sign-req client1 client2
+   98  ./easyrsa sign-req client client1
+   99  ll /etc/openvpn/easy-rsa/pki/private/client1.key
+  100  ll /etc/openvpn/easy-rsa/pki/private/client1.key /etc/openvpn/easy-rsa/pki/issued/client1.crt
+  101  ./easyrsa gen-req client2 nopass
+  102  ./easyrsa sign-req client client2
+  103  ll /etc/openvpn/easy-rsa/pki/private/client*.key /etc/openvpn/easy-rsa/pki/issued/client*.crt
+  104  ./easyrsa gen-req client3 nopass
+  105  ./easyrsa sign-req client client3
+  106  ll /etc/openvpn/easy-rsa/pki/private/client*.key /etc/openvpn/easy-rsa/pki/issued/client*.crt
+  107  ./easyrsa gen-req client4 nopass
+  108  ./easyrsa gen-req client5 nopass
+  109  ./easyrsa gen-req client4 nopass
+  110  ./easyrsa gen-req client5 nopass
+  111  ./easyrsa gen-req client6 nopass
+  112  ./easyrsa gen-req client7 nopass
+  113  ./easyrsa gen-req client8 nopass
+  114  ./easyrsa gen-req client9 nopass
+  115  ll /etc/openvpn/easy-rsa/pki/private/client*.key /etc/openvpn/easy-rsa/pki/issued/client*.crt
+  116  ./easyrsa sign-req client client4
+  117  ./easyrsa sign-req client client5
+  118  ./easyrsa sign-req client client6
+  119  ./easyrsa sign-req client client7
+  120  ./easyrsa sign-req client client8
+  121  ./easyrsa sign-req client client8
+  122  ./easyrsa sign-req client client9
+  123  ll /etc/openvpn/easy-rsa/pki/private/client*.key /etc/openvpn/easy-rsa/pki/issued/client*.crt
+  124  cp /etc/openvpn/easy-rsa/pki/issued/client* /home/sandeep/keys/
+  125  cp /etc/openvpn/easy-rsa/pki/private/client* /home/sandeep/keys/
+  126  cd /home/sandeep/keys/
+  127  ll
+  128  chown sandeep.sandeep *
+  129  ll
+  130  cd ../
+  131  chmod 777 -R keys/
+  132  pwd
+  133  chmod 640 -R keys/
+  134  ll
+  135  history
+  136  useradd sandeep
+  137  passwd sandeep
+  138  tail -f /var/log/secure
+  139  cd /home/sandeep/
+  140  ll -a
+  141  mkdir .ssh
+  142  vi .ssh/authorized_keys
+  143  chmod 600 .ssh/authorized_keys
+  144  chmod 700 .ssh/
+  145  chown sandeep.sandeep -R .ssh/
+  146  ll -a
+  147  chown sandeep.sandeep -R keys/
+  148  ll
+  149  ll -a
+  150  ll .ssh/
+  151  ll keys/
+  152  pwd
+  153  chmod 777 -R keys/
+  154  ll
+  155  ll
+  156  ll keys/
+  157  chmod 644 -R keys/
+  158  ll
+  159  sudo su
+  160  exit
+  161  yum install -y telnet
+  162  telnet 13.59.136.158 80
+  163  telnet 13.59.136.158 22
+  164  ssh -i aws-sandbox.pem sandeep@13.59.136.158
+  165  ssh  sandeep@13.59.136.158
+  166  vi aws-sandbox-jumphost.pem
+  167  chmod 400 aws-sandbox*
+  168  ssh -i aws-sandbox-jumphost.pem sandeep@13.59.136.158
+  169  ssh -i aws-sandbox-jumphost.pem ec2-user@13.59.136.158
+  170  ifconfig
+  171  ssh -i aws-sandbox-jumphost.pem sandeep@13.59.136.158
+  172  exit
+  173  cd /tmp/
+  174  ll
+  175  ssh -i aws-sandbox-jumphost.pem sandeep@13.59.136.158
+  176  ssh -i aws-sandbox-jumphost.pem ec2-user@13.59.136.158
+  177  cat ~/.ssh/
+  178  exit
+  179  history
